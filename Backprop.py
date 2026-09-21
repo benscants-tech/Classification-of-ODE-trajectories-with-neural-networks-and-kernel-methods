@@ -1,13 +1,26 @@
 import numpy as np
 import pandas as pd
 
-competitive_data = pd.read_csv('data/competitive_data.csv')
-pred_prey_data = pd.read_csv('data/pred_prey_data.csv')
 
+steps = 201
+num_training_examples = 400
+df = pd.read_csv('data/competitive_data.csv')
+competitive_data = [df["y1"][:num_training_examples * steps], df["y2"][:num_training_examples * steps]]
+df = pd.read_csv('data/pred_prey_data.csv')
+pred_prey_data = [df["y1"][:num_training_examples * steps], df["y2"][:num_training_examples * steps]]
+competitive_data = np.array(competitive_data)
+pred_prey_data = np.array(pred_prey_data)
+competitive_data = competitive_data.reshape((2, num_training_examples, steps))
+competitive_data = np.concatenate((competitive_data[0, :, :], competitive_data[1, :, :]), axis=1)
+pred_prey_data = pred_prey_data.reshape((2, num_training_examples, steps))
+pred_prey_data = np.concatenate((pred_prey_data[0, :, :], pred_prey_data[1, :, :]), axis=1)
+
+data = np.concatenate((competitive_data, pred_prey_data), axis=0)
+y_vals = np.concatenate((np.zeros(num_training_examples), (np.ones(num_training_examples))))
 
 n_examples = 800
 
-layers = [402, 240, 80, 10, 2]
+layers = [402, 240, 80, 10, 1]
 
 batch_size = 32
 def sigmoid(z):
@@ -18,8 +31,8 @@ def sigmoid_prime(z):
 
 def forward_prop(weight, bias, X):
     z = []
-    a = [X]
-    a_current = X
+    a = [X.T]
+    a_current = X.T
     for idx in range(len(weight)):
         z_current = weight[idx].T @ a_current + bias[idx][:, None]
         z.append(z_current)
@@ -36,7 +49,7 @@ def back_prop(z, a, weight, y):
     for k in range(r)[::-1]:
         if k < r - 1:
             current_z_derivative = sigmoid_prime(z[k]) * current_a_derivative  
-        grad_weight.append((a[k] @ current_z_derivative.T)/np.size(y, axis=1))
+        grad_weight.append((a[k] @ current_z_derivative.T)/np.size(y))
         grad_bias.append(current_z_derivative.mean(axis=1))
         current_a_derivative = weight[k] @ current_z_derivative
     return grad_weight[::-1], grad_bias[::-1]
@@ -53,14 +66,26 @@ def training(x, y, b_size, max_steps, alpha):
     count = 0
     loss_current = 0
     while count < max_steps:
-        choices = np.random.choice(b_size, size=n_examples)
+        choices = np.random.choice(n_examples, size=b_size)
         z, a = forward_prop(w, b, x[choices])
         grad_w, grad_b = back_prop(z, a, w, y[choices])
         for i in range(len(w)):
             w[i] -= alpha * grad_w[i]
             b[i] -= alpha * grad_b[i]
         count += 1
-        loss_prev, loss_current = loss_current, logistic(y, z)
-        if np.abs(loss_current - loss_prev) < 1e-4:
+        if count % 1e6 == 0:
+            print(count)
+            print(loss_current)
+        loss_prev, loss_current = loss_current, logistic(y[choices], z)
+        if np.abs(loss_current - loss_prev)/(b_size) < 1e-8:
             return loss_current, w, b
     return loss_current, w, b
+
+loss, w, b = training(data, y_vals, batch_size, 1e10, 0.1)
+print(loss)
+
+for i in range(len(w)):
+    np.save('data/w_' + str(i), w[i])
+    np.save('data/b_' + str(i), b[i])
+
+

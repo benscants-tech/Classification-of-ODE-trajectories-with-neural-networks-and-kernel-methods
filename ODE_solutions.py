@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 import time
 t1 = time.time()
 
-pred_prey_params = np.random.uniform(0.5, 1.0, size=(400, 4))
-pred_prey_initial_conditions = np.random.uniform(1, 2, size=(400, 2))
+pred_prey_params = np.random.uniform(0.5, 1.0, size=(500, 4))
+pred_prey_initial_conditions = np.random.uniform(1, 2, size=(500, 2))
 
-competitive_params = np.random.uniform(0.5, 1.0, size = (400, 6))
-competitive_initial_conditions = np.random.uniform(1, 2, size=(400, 2))
+competitive_params = np.random.uniform(0.5, 1.0, size = (500, 6))
+competitive_initial_conditions = np.random.uniform(1, 2, size=(500, 2))
 
 
 def pred_prey(input_params, initial_condition):
@@ -41,7 +41,7 @@ def competitive(input_params, initial_condition):
 pred_prey_data = []
 sim_no = 0
 competitive_data = []
-for i in range(400):
+for i in range(500):
     initial = pred_prey_initial_conditions[i, :]
     params = pred_prey_params[i, :]
     sol = pred_prey(params, initial)
@@ -57,7 +57,7 @@ df = pd.DataFrame(pred_prey_data)
 df.to_csv("data/pred_prey_data.csv", index=False)
 
 sim_no = 0
-for i in range(400):
+for i in range(500):
     initial = competitive_initial_conditions[i, :]
     params = competitive_params[i, :]
     sol = competitive(params, initial)
