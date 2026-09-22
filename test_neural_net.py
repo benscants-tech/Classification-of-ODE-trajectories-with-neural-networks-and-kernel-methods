@@ -31,8 +31,8 @@ def sigmoid(z):
     return 1/(1 + np.exp(-z))
 for i in range(num_testing_examples * 2):
     z = data[i, :]
-    for i in range(num_layers):
-        z = sigmoid(w[i].T @ z + b[i])
+    for j in range(num_layers):
+        z = sigmoid(w[j].T @ z + b[j])
     print(z)
     if int(z > 0.5) == y_vals[i]:
         count += 1

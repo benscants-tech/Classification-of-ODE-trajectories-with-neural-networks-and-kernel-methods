@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 import time
 t1 = time.time()
 
-pred_prey_params = np.random.uniform(0.5, 1.0, size=(500, 4))
+pred_prey_params = np.random.uniform(0.01, 1.0, size=(500, 4))
 pred_prey_initial_conditions = np.random.uniform(1, 2, size=(500, 2))
 
-competitive_params = np.random.uniform(0.5, 1.0, size = (500, 6))
+competitive_params = np.random.uniform(0.01, 1.0, size = (500, 6))
 competitive_initial_conditions = np.random.uniform(1, 2, size=(500, 2))
 
 

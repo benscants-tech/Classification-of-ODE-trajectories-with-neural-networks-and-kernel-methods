@@ -22,7 +22,7 @@ n_examples = 800
 
 layers = [402, 240, 80, 10, 1]
 
-batch_size = 32
+batch_size = 64
 def sigmoid(z):
     return 1/(1 + np.exp(-z))
 
@@ -73,15 +73,13 @@ def training(x, y, b_size, max_steps, alpha):
             w[i] -= alpha * grad_w[i]
             b[i] -= alpha * grad_b[i]
         count += 1
-        if count % 1e6 == 0:
+        if count % 1e3 == 0:
             print(count)
             print(loss_current)
-        loss_prev, loss_current = loss_current, logistic(y[choices], z)
-        if np.abs(loss_current - loss_prev)/(b_size) < 1e-8:
-            return loss_current, w, b
+        loss_current = logistic(y[choices], z)
     return loss_current, w, b
 
-loss, w, b = training(data, y_vals, batch_size, 1e10, 0.1)
+loss, w, b = training(data, y_vals, batch_size, 1e4, 0.1)
 print(loss)
 
 for i in range(len(w)):
