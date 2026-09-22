@@ -16,7 +16,8 @@ pred_prey_data = np.concatenate((pred_prey_data[0, :, :], pred_prey_data[1, :, :
 
 data = np.concatenate((competitive_data, pred_prey_data), axis=0)
 
-a = 4
+
+a = 6
 inner_product_matrix = (data @ data.T) / (steps * 2)
 kernel_matrix = np.zeros(shape=np.shape(inner_product_matrix))
 for i in (np.arange(a) + 1):

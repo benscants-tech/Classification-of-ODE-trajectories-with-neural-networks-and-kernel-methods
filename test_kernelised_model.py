@@ -7,7 +7,7 @@ steps = 201
 num_testing_examples = 100
 num_training_examples = 400
 beta = np.load('data/beta.npy')
-a = 4
+a = 6
 df = pd.read_csv('data/competitive_data.csv')
 competitive_testing_data = [df["y1"][-num_testing_examples * steps:], df["y2"][-num_testing_examples * steps:]]
 competitive_training_data = [df["y1"][:num_training_examples * steps], df["y2"][:num_training_examples * steps]]
@@ -44,5 +44,7 @@ inner_product_matrix = training_data @ testing_data.T
 kernel = np.zeros(shape=np.shape(inner_product_matrix))
 for i in (np.arange(a) + 1):
     kernel += inner_product_matrix ** i
-
-print(np.sum(y_vals == ((kernel @ beta.T) > 0.5)))
+def sigmoid(z):
+    return 1/(1 + np.exp(-z))
+print(sigmoid(kernel.T @ beta))
+print(np.sum(y_vals == (sigmoid((kernel.T @ beta)) > 0.5)))
