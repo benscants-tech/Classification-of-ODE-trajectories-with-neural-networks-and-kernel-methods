@@ -19,6 +19,10 @@ pred_prey_data = np.concatenate((pred_prey_data[0, :, :], pred_prey_data[1, :, :
 data = np.concatenate((competitive_data, pred_prey_data), axis=0)
 y_vals = np.concatenate((np.zeros(num_testing_examples), (np.ones(num_testing_examples))))
 
+means = np.load('data/training_data_mean.npy')
+std = np.load('data/training_data_mean.npy')
+
+data = (data - means) / std
 w = []
 b = []
 for i in range(num_layers):
@@ -34,7 +38,8 @@ for i in range(num_testing_examples * 2):
     for j in range(num_layers):
         z = sigmoid(w[j].T @ z + b[j])
     print(z)
-    if int(z > 0.5) == y_vals[i]:
+    print(z.item())
+    if (z.item() > 0.5) == y_vals[i]:
         count += 1
 
 print(count)
