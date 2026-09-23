@@ -19,7 +19,7 @@ pred_prey_data = np.concatenate((pred_prey_data[0, :, :], pred_prey_data[1, :, :
 data = np.concatenate((competitive_data, pred_prey_data), axis=0)
 y_vals = np.concatenate((np.zeros(num_testing_examples), (np.ones(num_testing_examples))))
 
-(data - data.mean(axis=1, keepdims=True)) / data.std(axis=1, keepdims=True)
+data = (data - data.mean(axis=1, keepdims=True)) / data.std(axis=1, keepdims=True)
 w = []
 b = []
 for i in range(num_layers):

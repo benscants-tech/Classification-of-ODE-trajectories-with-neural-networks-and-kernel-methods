@@ -38,8 +38,8 @@ print(np.shape(testing_data))
 
 y_vals = np.concatenate((np.zeros(num_testing_examples), (np.ones(num_testing_examples))))
 
-testing_data = (testing_data - testing_data.mean(axis=0, keepdims=True))/testing_data.std(axis=0, keepdims=True)
-training_data = (training_data - training_data.mean(axis=0, keepdims=True)) / training_data.std(axis=0, keepdims=True)
+testing_data = (testing_data - testing_data.mean(axis=1, keepdims=True))/testing_data.std(axis=1, keepdims=True)
+training_data = (training_data - training_data.mean(axis=1, keepdims=True)) / training_data.std(axis=1, keepdims=True)
 inner_product_matrix = (training_data @ testing_data.T) / (steps * 2)
 
 kernel = np.zeros(shape=np.shape(inner_product_matrix))
@@ -47,5 +47,4 @@ for i in (np.arange(a) + 1):
     kernel += inner_product_matrix ** i
 def sigmoid(z):
     return 1/(1 + np.exp(-z))
-print(sigmoid(kernel.T @ beta))
 print(np.sum(y_vals == (sigmoid((kernel.T @ beta)) > 0.5)))

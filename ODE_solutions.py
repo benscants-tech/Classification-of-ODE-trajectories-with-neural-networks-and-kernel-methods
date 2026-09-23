@@ -1,9 +1,9 @@
 from scipy.integrate import solve_ivp
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import time
-t1 = time.time()
+import os
+os.makedirs("data", exist_ok=True)
+np.random.seed(0)
 
 pred_prey_params = np.random.uniform(0.01, 1.0, size=(500, 4))
 pred_prey_initial_conditions = np.random.uniform(1, 2, size=(500, 2))
