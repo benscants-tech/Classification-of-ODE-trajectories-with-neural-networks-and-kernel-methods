@@ -88,4 +88,3 @@ for i in range(len(w)):
     np.save('data/w_' + str(i), w[i])
     np.save('data/b_' + str(i), b[i])
 
-

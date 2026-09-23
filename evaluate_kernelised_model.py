@@ -38,10 +38,8 @@ print(np.shape(testing_data))
 
 y_vals = np.concatenate((np.zeros(num_testing_examples), (np.ones(num_testing_examples))))
 
-mean = np.load('data/training_data_mean.npy')
-std = np.load('data/training_data_std.npy')
-testing_data = (testing_data - mean)/std
-training_data = (training_data - mean) / std
+testing_data = (testing_data - testing_data.mean(axis=0, keepdims=True))/testing_data.std(axis=0, keepdims=True)
+training_data = (training_data - training_data.mean(axis=0, keepdims=True)) / training_data.std(axis=0, keepdims=True)
 inner_product_matrix = (training_data @ testing_data.T) / (steps * 2)
 
 kernel = np.zeros(shape=np.shape(inner_product_matrix))
