@@ -19,8 +19,7 @@ data = np.concatenate((competitive_data, pred_prey_data), axis=0)
 y_vals = np.concatenate((np.zeros(num_training_examples), (np.ones(num_training_examples))))
 
 data = (data - data.mean(axis=1, keepdims=True))/data.std(axis=1, keepdims=True)
-np.save('data/training_data_means', data.mean(axis=1, keepdims=True))
-np.save('data/training_data_std', data.std(axis=1, keepdims=True))
+
 n_examples = 800
 
 layers = [402, 240, 80, 10, 1]
