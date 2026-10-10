@@ -92,6 +92,7 @@ Across unseeded runs, both models typically score between 97% and 100%. A single
 ## Limitations and possible extensions
 
 - **The task is probably quite easy.** Predator–prey solutions oscillate, while competitive solutions typically settle towards an equilibrium. The classifiers may largely be detecting oscillation. Harder variants could add noise, use shorter or irregular time windows, or include more systems.
+Running the script with a (the degree of the kernellised model) yields 76% accuracy so we at least know the data is not linearly seperable.
 - **Scale information is discarded.** Per-trajectory standardisation throws away amplitude information.
 - **Results come from a single seed.** Averaging over several seeds would give a more reliable accuracy estimate.
 - **Hyperparameters are untuned.** The learning rates, architecture and kernel degree were not chosen with a validation set.
