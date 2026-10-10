@@ -86,6 +86,7 @@ All scripts that use randomness (`ODE_solutions.py`, `Logistic_regression.py`, `
 | --- | --- |
 | Kernelised logistic regression | 197 / 200 (98.5%) |
 | Neural network | 196 / 200 (98.0%) |
+| Linear regression | 151 / 200 (75.5%) |
 
 Across unseeded runs, both models typically score between 97% and 100%. A single seeded result is one sample from that range, not a precise measure of either model's accuracy.
 
