@@ -2,7 +2,7 @@
 
 Can a model tell which system of differential equations produced a trajectory, just by looking at the trajectory?
 
-This project generates solutions to two classic two-species population models and trains two classifiers, written from scratch in NumPy, to distinguish them:
+This short project generates solutions to two classic two-species population models and trains two classifiers, written from scratch in NumPy, to distinguish them:
 
 - a **fully connected neural network** trained with hand-written backpropagation
 - **kernelised logistic regression** with a polynomial kernel
@@ -37,7 +37,7 @@ $$
 K(x, x') = \sum_{k=1}^{6} \left( \frac{\langle x, x' \rangle}{402} \right)^k .
 $$
 
-This is a sum of polynomial kernels and is therefore positive semi-definite. The model is trained with the kernelised SGD update
+This is a sum of polynomial kernels and is therefore positive semi-definite. Trajectories were rescaled by a linear shift so mean value was 0, with variance 1 to prevent one degree dominating, or overflow error. The model is trained with the kernelised SGD update.
 
 $$
 \beta_i \leftarrow \beta_i + \alpha \left( y^{(i)} - \sigma\!\left( \textstyle\sum_j K(x^{(i)}, x^{(j)})\, \beta_j \right) \right).
@@ -97,3 +97,5 @@ Running the script with a (the degree of the kernellised model) = 1 yields 76% a
 - **Scale information is discarded.** Per-trajectory standardisation throws away amplitude information.
 - **Results come from a single seed.** Averaging over several seeds would give a more reliable accuracy estimate.
 - **Hyperparameters are untuned.** The learning rates, architecture and kernel degree were not chosen with a validation set.
+- **Train-test split.** This was done randomly. This can flatter the model if it has seen a very similar trajectory in its training data. Splitting by parameter size could remedy this.
+- **The model itself** More complicated models are likely required for the more difficult problems specified above. A CNN, for example, would be excellent for identifying structure in the solution space. 
